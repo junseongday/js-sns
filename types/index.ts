@@ -5,6 +5,7 @@ export interface Post {
   updatedAt: string
   authorId: string
   author: User
+  comments: Comment[]
 }
 
 export interface User {
@@ -13,6 +14,16 @@ export interface User {
   username: string
   createdAt: string
   updatedAt: string
+}
+
+export interface Comment {
+  id: string
+  content: string
+  createdAt: string
+  updatedAt: string
+  authorId: string
+  author: User
+  postId: string
 }
 
 export interface PostsResponse {
@@ -43,4 +54,17 @@ export interface AuthResponse {
 
 export interface LoginResponse extends AuthResponse {}
 
-export interface RegisterResponse extends AuthResponse {} 
+export interface RegisterResponse extends AuthResponse {}
+
+// 댓글 관련 타입들
+export interface CommentRequest {
+  content: string
+}
+
+export interface CommentResponse {
+  comment: Comment
+}
+
+export interface CommentsResponse {
+  comments: Comment[]
+} 

@@ -21,6 +21,8 @@ model User {
   
   // 사용자가 작성한 게시물들 (1:N 관계)
   posts     Post[]
+  // 사용자가 작성한 댓글들 (1:N 관계)
+  comments  Comment[]
   
   @@map("users")
 }
@@ -34,6 +36,27 @@ model Post {
   // 게시물 작성자 (N:1 관계)
   authorId  String
   author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  // 게시물의 댓글들 (1:N 관계)
+  comments  Comment[]
 
   @@map("posts")
+}
+
+// 댓글 모델
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // 댓글 작성자 (N:1 관계)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  // 댓글이 속한 게시물 (N:1 관계)
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
 } 

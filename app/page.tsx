@@ -11,7 +11,7 @@ import { Post } from '@/types'
 
 export default function Home() {
   const { user, logout, isLoading } = useAuth()
-  const { posts, error, isLoading: postsLoading, isLoadingMore, hasMore, loadMore, mutate } = usePosts()
+  const { posts, error, isLoading: postsLoading, isLoadingMore, isReachingEnd, loadMore, refresh } = usePosts()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleCreatePost = async (content: string) => {
@@ -30,20 +30,7 @@ export default function Home() {
       if (response.ok) {
         const newPost = await response.json()
         // 새 게시물을 피드 맨 위에 추가
-        mutate(
-          (data) => {
-            if (!data) return data
-            const newData = [...data]
-            if (newData[0]) {
-              newData[0] = {
-                ...newData[0],
-                posts: [newPost, ...newData[0].posts]
-              }
-            }
-            return newData
-          },
-          false // 서버에서 다시 가져오지 않고 로컬 상태만 업데이트
-        )
+        refresh()
       }
     } catch (error) {
       console.error('Error creating post:', error)
@@ -102,8 +89,8 @@ export default function Home() {
         
         <InfiniteScroll
           onLoadMore={loadMore}
-          hasMore={hasMore}
-          isLoading={isLoadingMore}
+          hasMore={isReachingEnd === false}
+          isLoading={isLoadingMore ?? false}
         >
           {postsLoading ? (
             <div className="text-center py-8">

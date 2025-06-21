@@ -29,6 +29,19 @@ export async function GET(request: NextRequest) {
             id: true,
             username: true
           }
+        },
+        comments: {
+          include: {
+            author: {
+              select: {
+                id: true,
+                username: true
+              }
+            }
+          },
+          orderBy: {
+            createdAt: 'asc'
+          }
         }
       }
     })
@@ -46,7 +59,12 @@ export async function GET(request: NextRequest) {
       posts: postsToReturn.map(post => ({
         ...post,
         createdAt: post.createdAt.toISOString(),
-        updatedAt: post.updatedAt.toISOString()
+        updatedAt: post.updatedAt.toISOString(),
+        comments: post.comments.map(comment => ({
+          ...comment,
+          createdAt: comment.createdAt.toISOString(),
+          updatedAt: comment.updatedAt.toISOString()
+        }))
       })),
       nextCursor,
       hasMore
@@ -115,6 +133,19 @@ export async function POST(request: NextRequest) {
             id: true,
             username: true
           }
+        },
+        comments: {
+          include: {
+            author: {
+              select: {
+                id: true,
+                username: true
+              }
+            }
+          },
+          orderBy: {
+            createdAt: 'asc'
+          }
         }
       }
     })
@@ -122,7 +153,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       ...post,
       createdAt: post.createdAt.toISOString(),
-      updatedAt: post.updatedAt.toISOString()
+      updatedAt: post.updatedAt.toISOString(),
+      comments: post.comments.map(comment => ({
+        ...comment,
+        createdAt: comment.createdAt.toISOString(),
+        updatedAt: comment.updatedAt.toISOString()
+      }))
     })
   } catch (error) {
     console.error('Error creating post:', error)
