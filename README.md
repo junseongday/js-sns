@@ -1,10 +1,6 @@
 # 🚀 SNS 피드 (Cursor-based Paging with Next.js & Prisma)
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/9510055/273370282-2e2e6b2e-2e2e-4e2e-8e2e-2e2e6b2e2e2e.png" width="200" alt="SNS Feed Logo" />
-</p>
-
-<p align="center">
   <b>Next.js App Router + Prisma + SWR로 구현한 커서 기반 무한 스크롤 SNS 피드</b><br/>
   <sub>회원가입, 로그인, JWT 인증, 최신순 피드, 무한 스크롤, Tailwind CSS</sub>
 </p>
