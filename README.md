@@ -11,12 +11,6 @@
 
 ---
 
-## ✨ 데모
-
-> <img src="https://user-images.githubusercontent.com/9510055/273370282-2e2e6b2e-2e2e-4e2e-8e2e-2e2e6b2e2e2e.gif" width="600" alt="Demo" />
-
----
-
 ## 🛠️ 주요 기능
 
 - **커서 기반 페이징**: createdAt DESC, nextCursor, hasMore
