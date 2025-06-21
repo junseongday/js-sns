@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// 사용자 모델
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique  // 이메일은 고유해야 함
+  username  String   @unique  // 사용자명도 고유해야 함
+  password  String   // 해시된 비밀번호 저장
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // 사용자가 작성한 게시물들 (1:N 관계)
+  posts     Post[]
+  
+  @@map("users")
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // 게시물 작성자 (N:1 관계)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@map("posts")
+} 
